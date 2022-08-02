@@ -1,0 +1,6 @@
+github.com/ghoti143/httpsig v0.1.2 h1:xT3wmz3n4gHWFhvoPoJ0CwoeZY0O+zfiNnNACjNwWKw=
+github.com/ghoti143/httpsig v0.1.2/go.mod h1:b7u0G2IlLB25sOblJTmTE7ZaLQvhfK96kMdYc6Csf6s=
+github.com/jbowes/httpsig v0.1.0 h1:c+FrYgowMrQgRbFPJ2AvjpH/GI6lARmCxq8ZsoUR7i8=
+github.com/jbowes/httpsig v0.1.0/go.mod h1:aJ1MDqo0MbjNR0hCqgr0jxRHJw7B5UsaaehH6BJwQU0=
+moul.io/http2curl v1.0.0 h1:6XwpyZOYsgZJrU8exnG87ncVkU1FVCcTRpwzOkTDUi8=
+moul.io/http2curl v1.0.0/go.mod h1:f6cULg+e4Md/oW1cYmwW4IWQOVl2lGbmCNGOHvzX2kE=
