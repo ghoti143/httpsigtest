@@ -17,6 +17,7 @@ import (
 )
 
 const secret = "support-your-local-cat-bonnet-store"
+const url = "http://127.0.0.1:1234/"
 
 func server() {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -30,36 +31,44 @@ func server() {
 	log.Fatal(http.ListenAndServe("127.0.0.1:1234", http.DefaultServeMux))
 }
 
-func client() {
+func client_get() {
+	req, _ := http.NewRequest("GET", url, nil)	
+	
+	client_do(req)
+}
+
+func client_post() {	
+	var jsonData = []byte(`{
+		"name": "morpheus",
+		"job": "leader"
+	}`)	
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Content-Type", "application/json")
+
+	client_do(req)	
+}
+
+func client_patch() {
+	fmt.Println("not impl")
+}
+
+func client_delete() {
+	fmt.Println("not impl")
+}
+
+func client_do(req *http.Request) {
+
+	command, _ := http2curl.GetCurlCommand(req)
+	fmt.Println("\ncurl without sig: \n\n", command)
+
 	client := http.Client{
 		// Wrap the transport:
 		Transport: httpsig.NewSignTransport(http.DefaultTransport,
 			httpsig.WithHmacSha256("key1", []byte(secret))),
 	}
 
-	// GET request
-
-	//resp, err := client.Get("http://127.0.0.1:1234/")
-
-	// END GET request
-
-	// POST request
-	
-	var jsonData = []byte(`{
-		"name": "morpheus",
-		"job": "leader"
-	}`)	
-
-	request, err := http.NewRequest("POST", "http://127.0.0.1:1234/", bytes.NewBuffer(jsonData))
-	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-
-	command1, _ := http2curl.GetCurlCommand(request)
-	fmt.Println(command1)
-
-	resp, err := client.Do(request)
-
-	// END POST request
-
+	resp, err := client.Do(req)
 
 	if err != nil {
 		fmt.Println("got err: ", err)
@@ -68,19 +77,14 @@ func client() {
 	defer resp.Body.Close()
 
 	b, err := io.ReadAll(resp.Body)
-	// b, err := ioutil.ReadAll(resp.Body)  Go.1.15 and earlier
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(string(b))
-	fmt.Println(resp.Status)
-	fmt.Println(resp.Request.Header)
+	fmt.Println("\n\n", resp.Status, " || ", string(b))	
 
-	
-
-	// Output:
-	// 200 OK
+	command1, _ := http2curl.GetCurlCommand(resp.Request)
+	fmt.Println("\n\ncurl with sig:\n\n", command1)
 }
 
 func main() {
@@ -89,7 +93,18 @@ func main() {
 	if arg == "server" {
 		server() 
 	} else {
-		client()
+		switch os.Args[2] {
+		case "post":
+			client_post()
+		case "patch":
+			client_patch()
+		case "delete":
+			client_delete()
+		default:
+			// TODO: unknown params could be kept? hard to say.
+			client_get()
+		}
+		
 	}
 
 }
