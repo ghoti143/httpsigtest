@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "cf6d04b0-5c76-41fd-ac5b-384f32236290",
+		"name": "test http sig",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "3825097"
+	},
+	"item": [
+		{
+			"name": "get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Digest",
+						"value": "id-sha256=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+					},
+					{
+						"key": "Signature",
+						"value": "sig1=:RO15JlfS8I5sxBnaa+QyvaI7i7iRJNZ7LOqJrRgMzpI=:"
+					},
+					{
+						"key": "Signature-Input",
+						"value": "sig1=(\"@method\" \"@path\" \"@query\" \"digest\");created=1659386346;keyid=\"key1\""
+					}
+				],
+				"url": "http://127.0.0.1:1234/"
+			},
+			"response": []
+		},
+		{
+			"name": "post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Digest",
+						"value": "id-sha256=I6caPFG3IC7cOUZcerUBqM/h8NgCF+4k0N+eAdBmZq0="
+					},
+					{
+						"key": "Signature",
+						"value": "sig1=:+XWhdBkqeD/QVhy3RCvNyuNe45Dxlq9PnTjdA+Q+ryU=:"
+					},
+					{
+						"key": "Signature-Input",
+						"value": "sig1=(\"@method\" \"@path\" \"@query\" \"digest\" \"content-type\");created=1659562390;keyid=\"key1\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"name\": \"morpheus\",\n\t\t\"job\": \"leader\"\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:1234/"
+			},
+			"response": []
+		},
+		{
+			"name": "patch",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Digest",
+						"value": "id-sha256=Xt4/4aKwFfKirJB6lCfiMQbMCrkDXx7BCi3X5kYI+pc="
+					},
+					{
+						"key": "Signature",
+						"value": "sig1=:nfHg8fmijQ9yMbt6tRMey9NUAQHYZuVB/2j8AGu0Hso=:"
+					},
+					{
+						"key": "Signature-Input",
+						"value": "sig1=(\"@method\" \"@path\" \"@query\" \"digest\" \"content-type\");created=1659647472;keyid=\"key1\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"name\": \"neo\",\n\t\t\"job\": \"the one\"\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:1234/"
+			},
+			"response": []
+		},
+		{
+			"name": "put",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Digest",
+						"value": "id-sha256=VH09bHB8VpmhPPFtyOVwz0ZY/LzbFZBh6ksZupFQlLA="
+					},
+					{
+						"key": "Signature",
+						"value": "sig1=:ULTDU48wSHBbLza/iOp+jJXOUxg0K8Uttytp3vbg8Q0=:"
+					},
+					{
+						"key": "Signature-Input",
+						"value": "sig1=(\"@method\" \"@path\" \"@query\" \"digest\" \"content-type\");created=1659647984;keyid=\"key1\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"name\": \"trinity\",\n\t\t\"job\": \"sidekick?\"\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:1234/"
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Digest",
+						"value": "id-sha256=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+					},
+					{
+						"key": "Signature",
+						"value": "sig1=:ySson2TYFXak2ji9+/BJaTnF3U1N/5y2IdLVQgRyegM=:"
+					},
+					{
+						"key": "Signature-Input",
+						"value": "sig1=(\"@method\" \"@path\" \"@query\" \"digest\");created=1659648086;keyid=\"key1\""
+					}
+				],
+				"url": "http://127.0.0.1:1234/1234"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"200 response code\", function () {",
+					"    pm.expect(pm.response.code).to.be.equal(200);",
+					"});",
+					"",
+					"pm.test(\"valid signature response body\", function () {",
+					"    pm.expect(responseBody).to.be.equal(\"Your request has a valid signature!\");",
+					"});",
+					""
+				]
+			}
+		}
+	]
+}
