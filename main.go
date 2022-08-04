@@ -17,7 +17,8 @@ import (
 )
 
 const secret = "support-your-local-cat-bonnet-store"
-const url = "http://127.0.0.1:1234/"
+const host = "127.0.0.1:1234"
+var url = fmt.Sprintf("http://%s/", host)
 
 func server() {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,7 @@ func server() {
 	middleware := httpsig.NewVerifyMiddleware(httpsig.WithHmacSha256("key1", []byte(secret)))
 	http.Handle("/", middleware(h))
 
-	log.Fatal(http.ListenAndServe("127.0.0.1:1234", http.DefaultServeMux))
+	log.Fatal(http.ListenAndServe(host, http.DefaultServeMux))
 }
 
 func client_get() {
