@@ -50,11 +50,32 @@ func client_post() {
 }
 
 func client_patch() {
-	fmt.Println("not impl")
+	var jsonData = []byte(`{
+		"name": "neo",
+		"job": "the one"
+	}`)	
+
+	req, _ := http.NewRequest("PATCH", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Content-Type", "application/json")
+
+	client_do(req)	
+}
+
+func client_put() {
+	var jsonData = []byte(`{
+		"name": "trinity",
+		"job": "sidekick?"
+	}`)	
+
+	req, _ := http.NewRequest("PUT", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Content-Type", "application/json")
+
+	client_do(req)	
 }
 
 func client_delete() {
-	fmt.Println("not impl")
+	req, _ := http.NewRequest("DELETE", url+"1234", nil)
+	client_do(req)	
 }
 
 func client_do(req *http.Request) {
@@ -98,6 +119,8 @@ func main() {
 			client_post()
 		case "patch":
 			client_patch()
+		case "put":
+			client_put()
 		case "delete":
 			client_delete()
 		default:
